@@ -15,6 +15,28 @@
 		</div>
 		<div class="panel-body">
 			<!-- Content  -->
+
+			<!-- Task 1 -->
+			<div unordered-list1></div>
+			<div unordered-list2></div>
+
+			<!-- Task 2 -->
+			<div unordered-list3="products" list-property="price | currency"></div>
+
+			<!-- Task 3 -->
+			<div unordered-list4="products" list-property="price | currency"></div>
+
+			<!-- Task 4 -->
+			<div unordered-list5="products" list-property="price | currency"></div>
+
+			<!-- Task 5 -->
+			<select ng-model="data.field">
+				<option value="price | currency">Price</option>
+				<option value="name">Name</option>
+				<option value="category">Category</option>
+			</select>
+			<div unordered-list-attrs="products" list-property="{{data.field}}"></div>
+			<div unordered-list-attrs="products" list-property="{{data.field}}"></div>
 		</div>
 	</div>
 
