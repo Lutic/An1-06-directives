@@ -7,50 +7,55 @@
 	<link href="vendor/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
 </head>
 <body ng-controller="Default">
-	<div class="container">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3>Directives</h3>
-			</div>
-		</div>
-		<div class="panel-body">
-			<!-- Content  -->
-
-			<!-- Task 1 -->
-			<div unordered-list1></div>
-			<div unordered-list2></div>
-
-			<!-- Task 2 -->
-			<div unordered-list3="products" list-property="price | currency"></div>
-
-			<!-- Task 3 -->
-			<div unordered-list4="products" list-property="price | currency"></div>
-
-			<!-- Task 4 -->
-			<div unordered-list5="products" list-property="price | currency"></div>
-
-			<!-- Task 5 -->
-			<select ng-model="data.field">
-				<option value="price | currency">Price</option>
-				<option value="name">Name</option>
-				<option value="category">Category</option>
-			</select>
-			<div unordered-list-attrs="products" list-property="{{data.field}}"></div>
-			<div unordered-list-attrs="products" list-property="{{data.field}}"></div>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>Directives</h3>
 		</div>
 	</div>
+	<div class="panel-body">
+		<!-- Content  -->
 
-	<!-- libs and frameworks -->
-	<script src="vendor/angular/angular.min.js"></script>
+		<!-- Task 01 -->
+		<!-- <div unordered-list1></div>
+    <div unordered-list2></div> -->
 
-	<!-- app -->
-	<script src="app.js"></script>
-	<script src="controllers/Default.js"></script>
-	<script src="controllers/Second.js"></script>
-	<script src="controllers/Greeting.js"></script>
-	<script src="services/productsData.js"></script>
-	<script src="services/userData.js"></script>
-	<script src="directives/directives.js"></script>
+		<!-- Task 02 -->
+		<!-- <div unordered-list3="products" list-property="price | currency"></div> -->
+
+		<!-- Task 03 -->
+		<!-- <div unordered-list4="products" list-property="price | currency"></div> -->
+
+		<!-- Task 04 -->
+
+		<!-- <div unordered-list5="products" list-property="price | currency"></div> -->
+		<!-- <div unordered-list5="products" list-property="data.field"></div> -->
+
+
+		<!-- Task 05 -->
+		<select ng-model="data.field">
+			<option value="price | currency">Price</option>
+			<option value="name">Name</option>
+			<option value="category">Category</option>
+		</select>
+		<!-- <div unordered-list-attrs="products" list-property="{{data.field}}"></div> -->
+		<div unordered-list-scope="products" list-property="data.field"></div>
+		<button class="btn btn-primary" ng-click="incrementPrices()">Change Price</button>
+
+	</div>
+</div>
+
+<!-- libs and frameworks -->
+<script src="vendor/angular/angular.min.js"></script>
+
+<!-- app -->
+<script src="app.js"></script>
+<script src="controllers/Default.js"></script>
+<script src="controllers/Second.js"></script>
+<script src="controllers/Greeting.js"></script>
+<script src="services/productsData.js"></script>
+<script src="services/userData.js"></script>
+<script src="directives/directives.js"></script>
 </body>
 </html>
 
