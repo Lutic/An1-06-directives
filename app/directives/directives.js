@@ -25,6 +25,20 @@
         .directive("scopeDemoIsolated2", scopeDemoIsolated2)
         .directive("scopeDemoIsolated3", scopeDemoIsolated3)
         .directive("scopeDemoIsolated4", scopeDemoIsolated4)
+        .directive("greeting1", greeting1)
+        .directive("greeting2", greeting2)
+        .directive("greeting3", greeting3)
+        .directive("scopeDemoIsolated5", scopeDemoIsolated5)
+        .directive("greeting4", greeting4)
+        .directive("hello", hello)
+        .directive("hi", hi)
+        .directive("greeting5", greeting5)
+        .directive("hello2", hello2)
+        .directive("hi2", hi2)
+        .directive("greeting6", greeting6)
+        .directive("hello3", hello3)
+        .directive("hi3", hi3)
+        .directive("myMultiElem", myMultiElem)
     ;
 
     function unorderedList1() {
@@ -401,6 +415,199 @@
             },
             // templateUrl: 'templates/scopeEvalTemplate.html'
             templateUrl: 'templates/scopeEvalDataTemplate.html'
+        };
+    }
+
+    function greeting1 () {
+        return {
+            restrict: 'E',
+            scope: {
+            },
+            templateUrl: 'templates/greetingTemplate.html',
+            controller: function ($scope) {
+                $scope.sayHello = function () {
+                    alert("Hello");
+                }
+            }
+        };
+    }
+
+    function greeting2 () {
+        return {
+            restrict: 'E',
+            scope: { },
+            templateUrl: 'templates/greetingTemplate.html',
+            controller: "Greeting"
+        };
+    }
+
+    function greeting3 () {
+        return {
+            restrict: 'E',
+            scope: { },
+            templateUrl: 'templates/greetingTemplate.html',
+            controller: "@",
+            name: "ctrl"
+        };
+    }
+
+    function scopeDemoIsolated5 () {
+        return {
+            restrict: 'A',
+            scope: {
+                prop: "@"
+            },
+            template: '<p>{{$ctrl.prop}}={{$ctrl.result}}</p>',
+            controller: function () {
+                this.result = "112"; //{{$ctrl.prop}} in template
+            },
+            controllerAs: '$ctrl',
+            bindToController: true, //or {prop: "@"} instead of scope {prop: "@"}
+        };
+    }
+
+    function greeting4 () {
+        let greetings = [];
+
+        return {
+            restrict: 'E',
+            scope: { },
+            templateUrl: 'templates/greetingTemplate.html',
+            controller: function ($scope) {
+                $scope.sayHello = function () {
+                    alert(greetings.join());
+                };
+
+                this.addGreeting = function (greeting) {
+                    greetings.push(greeting);
+                }
+            }
+        };
+    }
+
+    function hello () {
+        return {
+            restrict: 'A',
+            require: 'greeting4',
+            link: function (scope, elem, attrs, ctrl) {
+                ctrl.addGreeting("Hello");
+            }
+
+        };
+    }
+
+    function hi () {
+        return {
+            restrict: 'A',
+            require: 'greeting4',
+            link: function (scope, elem, attrs, ctrl) {
+                ctrl.addGreeting("Hi");
+            }
+
+        };
+    }
+
+    function greeting5 () {
+        let greetings = [];
+
+        return {
+            restrict: 'E',
+            scope: { },
+            templateUrl: 'templates/greetingTranscludeTemplate.html',
+            controller: function ($scope) {
+                $scope.sayHello = function () {
+                    alert(greetings.join());
+                };
+
+                this.addGreeting = function (greeting) {
+                    greetings.push(greeting);
+                }
+            }
+        };
+    }
+
+    function hello2 () {
+        return {
+            restrict: 'A',
+            require: '^greeting5',
+            link: function (scope, elem, attrs, ctrl) {
+                ctrl.addGreeting("Hello");
+            }
+
+        };
+    }
+
+    function hi2 () {
+        return {
+            restrict: 'A',
+            require: '^greeting5',
+            link: function (scope, elem, attrs, ctrl) {
+                ctrl.addGreeting("Hi");
+            }
+
+        };
+    }
+
+    // Priority
+    function greeting6 () {
+        let greetings = [];
+
+        return {
+            restrict: 'E',
+            scope: { },
+            templateUrl: 'templates/greetingTemplate.html',
+            priority: 3,
+            controller: function ($scope) {
+                $scope.sayHello = function () {
+                    alert(greetings.join());
+                };
+
+                this.addGreeting = function (greeting) {
+                    greetings.push(greeting);
+                }
+            }
+        };
+    }
+
+    function hello3 () {
+        return {
+            restrict: 'A',
+            require: 'greeting6',
+            priority: 1,
+            link: {
+                pre: function (scope, elem, attrs, ctrl) {
+                    ctrl.addGreeting("Hello");
+                }
+            }
+
+        };
+    }
+
+    function hi3 () {
+        return {
+            restrict: 'A',
+            require: 'greeting6',
+            priority: 2,
+            terminal: true,
+            link: {
+                pre: function (scope, elem, attrs, ctrl) {
+                    ctrl.addGreeting("Hi");
+                }
+            }
+
+        };
+    }
+
+    function myMultiElem () {
+        return {
+            restrict: 'A',
+            multiElement: true,
+            link: {
+                pre: function (scope, elems) {
+                    console.log(elems);
+                }
+            }
+
         };
     }
 
