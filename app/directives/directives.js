@@ -39,6 +39,10 @@
         .directive("hello3", hello3)
         .directive("hi3", hi3)
         .directive("myMultiElem", myMultiElem)
+        .directive("panel", panel)
+        .directive("collapsibleTrue", collapsibleTrue)
+        .directive("collapsibleElement", collapsibleElement)
+        .directive("multiTransclude", multiTransclude)
     ;
 
     function unorderedList1() {
@@ -611,5 +615,88 @@
         };
     }
 
+    function panel() {
+        return {
+            restrict: "E",
+            templateUrl: "templates/panelTemplate.html",
+            scope: {
+                title: "@"
+            },
+            transclude: true
+        }
+    }
 
+    function collapsibleTrue () {
+        return {
+            restrict: "E",
+            template: `
+            <div>
+                <h3 ng-click="$ctrl.toggleContent()" style="cursor: pointer;">{{$ctrl.title}}</h3>
+                <div ng-transclude ng-show="$ctrl.show"></div>
+            </div>
+            `,
+            scope: {},
+            transclude: true,
+            bindToController: {
+                title: "@"
+            },
+            controllerAs: "$ctrl",
+            controller: function () {
+                let $ctrl = this;
+
+                $ctrl.show = true;
+
+                $ctrl.toggleContent = function () {
+                    $ctrl.show = !$ctrl.show;
+                }
+            }
+        }
+    }
+
+    function collapsibleElement () {
+        return {
+            restrict: "E",
+            scope: {},
+            transclude: "element",
+            // link: function (scope, elem, attrs, ctrl, transclude) {
+            //     transclude(function (clone, scope) {
+            //         console.log(clone);
+            //         console.log(elem);
+            //         elem.parent().append(clone);
+            //     })
+            // },
+            controller: function ($transclude, $element) {
+                $transclude(function (clone, scope) {
+                    console.log(clone);
+                    console.log($element);
+                    $element.parent().append(clone);
+                })
+            }
+        }
+    }
+
+    function multiTransclude () {
+        return {
+            restrict: "E",
+            scope: {},
+            transclude: {
+                "item1": "componentOne",
+                "item2": "componentTwo"
+            },
+            template: `
+                <div>
+                  <div ng-transclude="item1"></div>
+                  <div ng-transclude="item2"></div>
+                </div>
+            `,
+            controller: function ($transclude, $element) {
+                $transclude(function (clone, scope) {
+                    console.log(clone);
+                    console.log($element);
+                });
+
+                console.log($transclude.isSlotFilled("item2")); // проверить, заполнен ли слот
+            }
+        }
+    }
 })();
